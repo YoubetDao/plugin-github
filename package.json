@@ -1,5 +1,5 @@
 {
-    "name": "@elizaos-plugins/plugin-flow-template",
+    "name": "@elizaos-plugins/plugin-github",
     "version": "0.1.0",
     "type": "module",
     "main": "dist/index.js",
