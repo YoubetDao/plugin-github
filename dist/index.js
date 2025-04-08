@@ -250,7 +250,9 @@ _ts_decorate3([
 ], CreateResourceContent.prototype, "tags", void 0);
 var options = {
   name: "CREATE_RESOURCE",
-  similes: [],
+  similes: [
+    "CREATE_RESOURCE"
+  ],
   description: "Create a new resource with the specified details",
   examples: [
     [
@@ -300,36 +302,182 @@ var CreateResourceAction = class extends BaseInjectableAction {
   async validate(runtime, _message, _state) {
     return runtime.getSetting("API_KEY") !== void 0;
   }
-  async execute(content, runtime, message, state, callback) {
-    if (!content) {
-      const error = "No content provided for the action.";
-      elizaLogger3.warn(error);
-      await callback?.({
-        text: error
-      }, []);
-      return;
-    }
+  //     async execute(
+  //         content: CreateResourceContent | null,
+  //         runtime: IAgentRuntime,
+  //         message: Memory,
+  //         state: State,
+  //         callback?: HandlerCallback
+  //     ) {
+  //         console.log("--------------------------------");
+  //         console.log("content", content);
+  //         console.log("--------------------------------");
+  //         if (!content) {
+  //             const error = "No content provided for the action.";
+  //             elizaLogger.warn(error);
+  //             await callback?.({ text: error }, []);
+  //             return;
+  //         }
+  //         // Call injected provider to do some work
+  //         try {
+  //             // Call Service
+  //             const taskCount = this.sampleService.getGlobalActiveTaskCount();
+  //             elizaLogger.info("Active task count:", taskCount);
+  //             // Call Provider
+  //             const result = await this.sampleProvider.get(runtime, message, state);
+  //             if (!result) {
+  //                 elizaLogger.warn("Provider did not return a result.");
+  //             } else {
+  //                 elizaLogger.info("Privder result:", result);
+  //             }
+  //             // Use result in callback
+  //         } catch (error) {
+  //             elizaLogger.error("Provider error:", error);
+  //         }
+  //         // persist relevant data if needed to memory/knowledge
+  //         // const memory = {
+  //         //     type: "resource",
+  //         //     content: resourceDetails.object,
+  //         //     timestamp: new Date().toISOString()
+  //         // };
+  //         // await runtime.storeMemory(memory);
+  //         callback?.(
+  //             {
+  //                 text: `Resource created successfully:
+  // - Name: ${content.name}
+  // - Type: ${content.type}
+  // - Description: ${content.description}
+  // - Tags: ${content.tags.join(", ")}
+  // Resource has been stored in memory.`,
+  //             },
+  //             []
+  //         );
+  //     }
+  async execute(content, runtime, _message, _state, callback) {
+    console.log("--------------------------------");
     try {
-      const taskCount = this.sampleService.getGlobalActiveTaskCount();
-      elizaLogger3.info("Active task count:", taskCount);
-      const result = await this.sampleProvider.get(runtime, message, state);
-      if (!result) {
-        elizaLogger3.warn("Provider did not return a result.");
-      } else {
-        elizaLogger3.info("Privder result:", result);
-      }
-    } catch (error) {
-      elizaLogger3.error("Provider error:", error);
-    }
-    callback?.({
-      text: `Resource created successfully:
-- Name: ${content.name}
-- Type: ${content.type}
-- Description: ${content.description}
-- Tags: ${content.tags.join(", ")}
+      const actualIssues = [
+        {
+          "_id": "67d15e3ebe1fbbbba0b3d784",
+          "githubId": 2913428192,
+          "__v": 0,
+          "assignees": [],
+          "body": `When accessing the task page without logging in, clicking on **MyTasks** or **MyRewards** redirects to the login page. If you then click the browser's "Back" button, the page returns to the task page but immediately jumps back to the login page. Clicking "Back" again makes the button unclickable, as if the history has been cleared.
 
-Resource has been stored in memory.`
-    }, []);
+This issue occurs on both **MyTasks** and **MyRewards**. I've recorded a video to better illustrate the problem.
+
+https://github.com/user-attachments/assets/541516f7-0753-44ea-81f7-538977435d3f`,
+          "closedAt": null,
+          "createdAt": "2025-03-12T10:13:16.000Z",
+          "htmlUrl": "https://github.com/YoubetDao/youbet-task/issues/125",
+          "labels": [],
+          "project": "66b1e94756f79b17455f9d66",
+          "rewardGranted": false,
+          "state": "open",
+          "title": '[Bug] Repeated Redirection and Navigation Stack Issue on "Back" Button Click (Logged Out)',
+          "updatedAt": "2025-03-12T10:13:16.000Z",
+          "user": {
+            "login": "wangeguo",
+            "htmlUrl": "https://github.com/wangeguo",
+            "avatarUrl": "https://avatars.githubusercontent.com/u/146697?v=4"
+          }
+        },
+        {
+          "_id": "67d1b150be1fbbbba0b3f0bd",
+          "githubId": 2914469175,
+          "__v": 0,
+          "assignees": [],
+          "body": "\u652F\u6301 opengraph \u53EF\u4EE5\u4F7F\u94FE\u63A5\u5361\u7247\u5728\u793E\u4EA4\u5A92\u4F53\u66F4\u597D\u5C55\u793A",
+          "closedAt": null,
+          "createdAt": "2025-03-12T16:07:43.000Z",
+          "htmlUrl": "https://github.com/YoubetDao/youbet-task/issues/126",
+          "labels": [
+            "enhancement"
+          ],
+          "project": "66b1e94756f79b17455f9d66",
+          "rewardGranted": false,
+          "state": "open",
+          "title": "[Feature] \u652F\u6301 opengraph",
+          "updatedAt": "2025-04-03T04:27:21.000Z",
+          "user": {
+            "login": "phoouze",
+            "htmlUrl": "https://github.com/phoouze",
+            "avatarUrl": "https://avatars.githubusercontent.com/u/16130308?v=4"
+          }
+        },
+        {
+          "_id": "67d77d7187803b11c420b9fc",
+          "githubId": 2923510139,
+          "__v": 0,
+          "assignees": [],
+          "body": "Issue Description\n\n## Unable to trigger rebinding operation\n\nWhen attempting to perform the wallet binding operation, the process fails to trigger as expected.\n\nNote: Previously, I successfully performed this binding operation during the testnet phase, but currently, on mainnet, I\u2019m unable to do so.\n\n## Possible lack of authentication on query API (uncertain if this is an issue)\n  I noticed that the following API endpoint allows querying wallet address information of users other than myself:\n\n   https://according.work/api/youbet/wallet?github={username}\n\nI\u2019m unsure if this behavior is intentional by design or poses a potential privacy risk. ",
+          "closedAt": null,
+          "createdAt": "2025-03-17T01:39:59.000Z",
+          "htmlUrl": "https://github.com/YoubetDao/youbet-task/issues/130",
+          "labels": [
+            "bug"
+          ],
+          "project": "66b1e94756f79b17455f9d66",
+          "rewardGranted": false,
+          "state": "open",
+          "title": "Wallet rebind and security issue",
+          "updatedAt": "2025-04-03T04:26:54.000Z",
+          "user": {
+            "login": "feynman-x",
+            "htmlUrl": "https://github.com/feynman-x",
+            "avatarUrl": "https://avatars.githubusercontent.com/u/14007952?v=4"
+          }
+        },
+        {
+          "_id": "67d8e89387803b11c4211bb8",
+          "githubId": 2926984675,
+          "__v": 0,
+          "assignees": [],
+          "body": "![Image](https://github.com/user-attachments/assets/456a9cc5-7d37-4870-ae65-c03789e36074)",
+          "closedAt": null,
+          "createdAt": "2025-03-18T03:29:21.000Z",
+          "htmlUrl": "https://github.com/YoubetDao/youbet-task/issues/133",
+          "labels": [],
+          "project": "66b1e94756f79b17455f9d66",
+          "rewardGranted": false,
+          "state": "open",
+          "title": "Internal JSON-RPC Error: Execution Reverted due to RedPacket Already Existing",
+          "updatedAt": "2025-03-18T03:29:21.000Z",
+          "user": {
+            "login": "hunknownz",
+            "htmlUrl": "https://github.com/hunknownz",
+            "avatarUrl": "https://avatars.githubusercontent.com/u/5717967?v=4"
+          }
+        }
+      ];
+      const formattedIssues = actualIssues.map((issue) => {
+        return {
+          title: issue.title,
+          status: issue.state
+        };
+      });
+      console.log("get issues: ", formattedIssues);
+      await callback?.({
+        text: `You are given a plain text list of GitHub issues. Please convert it into a clean, well-formatted Markdown list, where each issue is presented as a bullet point with the following details:
+	\u2022	The issue title in bold
+	\u2022	Status (open or closed)
+	\u2022	Assignee (use unassigned if none)
+	\u2022	Creation date (YYYY-MM-DD format)
+	\u2022	A clickable link to the issue
+    Here is the data: ${JSON.stringify({
+          issues: formattedIssues
+        })}
+    Format each issue as a bullet point like this:
+	\u2022	Issue Title \u2014 open, assigned to username, created on YYYY-MM-DD. View issue
+`
+      }, []);
+    } catch (error) {
+      console.log(error);
+      elizaLogger3.error("Error fetching issues:", error);
+      await callback?.({
+        text: "An error occurred while fetching issues."
+      }, []);
+    }
   }
 };
 CreateResourceAction = _ts_decorate3([
@@ -468,12 +616,227 @@ SampleFlowAction = _ts_decorate4([
 ], SampleFlowAction);
 globalContainer4.bind(SampleFlowAction).toSelf().inRequestScope();
 
+// src/actions/getProjectIssuesAction.ts
+import { injectable as injectable5 } from "inversify";
+import { elizaLogger as elizaLogger5 } from "@elizaos/core";
+import { globalContainer as globalContainer5, BaseInjectableAction as BaseInjectableAction2 } from "@elizaos-plugins/plugin-di";
+function _ts_decorate5(decorators, target, key, desc) {
+  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+  else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+__name(_ts_decorate5, "_ts_decorate");
+function _ts_metadata5(k, v) {
+  if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+}
+__name(_ts_metadata5, "_ts_metadata");
+var GetProjectIssuesContent = class {
+  static {
+    __name(this, "GetProjectIssuesContent");
+  }
+};
+var options2 = {
+  name: "GET_PROJECT_ISSUES",
+  similes: [
+    "GET_PROJECT_ISSUES",
+    "LIST_ISSUES",
+    "SHOW_TASKS",
+    "GET_ISSUES",
+    "LIST_TASKS"
+  ],
+  description: "Get a list of issues/tasks from a GitHub repository",
+  examples: [
+    [
+      {
+        user: "{{user1}}",
+        content: {
+          text: "Get all issues from the repository"
+        }
+      },
+      {
+        user: "{{agentName}}",
+        content: {
+          text: "Here are the issues in the repository:"
+        }
+      }
+    ],
+    [
+      {
+        user: "{{user1}}",
+        content: {
+          text: "list tasks from the repository"
+        }
+      },
+      {
+        user: "{{agentName}}",
+        content: {
+          text: "Here are the tasks in the repository:"
+        }
+      }
+    ]
+  ],
+  contentClass: GetProjectIssuesContent
+};
+var GetProjectIssuesAction = class extends BaseInjectableAction2 {
+  static {
+    __name(this, "GetProjectIssuesAction");
+  }
+  constructor() {
+    super(options2);
+  }
+  async validate(runtime, _message, _state) {
+    return runtime.getSetting("GITHUB_TOKEN") !== void 0;
+  }
+  async execute(content, runtime, _message, _state, callback) {
+    console.log("--------------------------------");
+    if (!content) {
+      const error = "No content provided for the action.";
+      elizaLogger5.warn(error);
+      await callback?.({
+        text: error
+      }, []);
+      return;
+    }
+    try {
+      const actualIssues = [
+        {
+          "_id": "67d15e3ebe1fbbbba0b3d784",
+          "githubId": 2913428192,
+          "__v": 0,
+          "assignees": [],
+          "body": `When accessing the task page without logging in, clicking on **MyTasks** or **MyRewards** redirects to the login page. If you then click the browser's "Back" button, the page returns to the task page but immediately jumps back to the login page. Clicking "Back" again makes the button unclickable, as if the history has been cleared.
+
+This issue occurs on both **MyTasks** and **MyRewards**. I've recorded a video to better illustrate the problem.
+
+https://github.com/user-attachments/assets/541516f7-0753-44ea-81f7-538977435d3f`,
+          "closedAt": null,
+          "createdAt": "2025-03-12T10:13:16.000Z",
+          "htmlUrl": "https://github.com/YoubetDao/youbet-task/issues/125",
+          "labels": [],
+          "project": "66b1e94756f79b17455f9d66",
+          "rewardGranted": false,
+          "state": "open",
+          "title": '[Bug] Repeated Redirection and Navigation Stack Issue on "Back" Button Click (Logged Out)',
+          "updatedAt": "2025-03-12T10:13:16.000Z",
+          "user": {
+            "login": "wangeguo",
+            "htmlUrl": "https://github.com/wangeguo",
+            "avatarUrl": "https://avatars.githubusercontent.com/u/146697?v=4"
+          }
+        },
+        {
+          "_id": "67d1b150be1fbbbba0b3f0bd",
+          "githubId": 2914469175,
+          "__v": 0,
+          "assignees": [],
+          "body": "\u652F\u6301 opengraph \u53EF\u4EE5\u4F7F\u94FE\u63A5\u5361\u7247\u5728\u793E\u4EA4\u5A92\u4F53\u66F4\u597D\u5C55\u793A",
+          "closedAt": null,
+          "createdAt": "2025-03-12T16:07:43.000Z",
+          "htmlUrl": "https://github.com/YoubetDao/youbet-task/issues/126",
+          "labels": [
+            "enhancement"
+          ],
+          "project": "66b1e94756f79b17455f9d66",
+          "rewardGranted": false,
+          "state": "open",
+          "title": "[Feature] \u652F\u6301 opengraph",
+          "updatedAt": "2025-04-03T04:27:21.000Z",
+          "user": {
+            "login": "phoouze",
+            "htmlUrl": "https://github.com/phoouze",
+            "avatarUrl": "https://avatars.githubusercontent.com/u/16130308?v=4"
+          }
+        },
+        {
+          "_id": "67d77d7187803b11c420b9fc",
+          "githubId": 2923510139,
+          "__v": 0,
+          "assignees": [],
+          "body": "Issue Description\n\n## Unable to trigger rebinding operation\n\nWhen attempting to perform the wallet binding operation, the process fails to trigger as expected.\n\nNote: Previously, I successfully performed this binding operation during the testnet phase, but currently, on mainnet, I\u2019m unable to do so.\n\n## Possible lack of authentication on query API (uncertain if this is an issue)\n  I noticed that the following API endpoint allows querying wallet address information of users other than myself:\n\n   https://according.work/api/youbet/wallet?github={username}\n\nI\u2019m unsure if this behavior is intentional by design or poses a potential privacy risk. ",
+          "closedAt": null,
+          "createdAt": "2025-03-17T01:39:59.000Z",
+          "htmlUrl": "https://github.com/YoubetDao/youbet-task/issues/130",
+          "labels": [
+            "bug"
+          ],
+          "project": "66b1e94756f79b17455f9d66",
+          "rewardGranted": false,
+          "state": "open",
+          "title": "Wallet rebind and security issue",
+          "updatedAt": "2025-04-03T04:26:54.000Z",
+          "user": {
+            "login": "feynman-x",
+            "htmlUrl": "https://github.com/feynman-x",
+            "avatarUrl": "https://avatars.githubusercontent.com/u/14007952?v=4"
+          }
+        },
+        {
+          "_id": "67d8e89387803b11c4211bb8",
+          "githubId": 2926984675,
+          "__v": 0,
+          "assignees": [],
+          "body": "![Image](https://github.com/user-attachments/assets/456a9cc5-7d37-4870-ae65-c03789e36074)",
+          "closedAt": null,
+          "createdAt": "2025-03-18T03:29:21.000Z",
+          "htmlUrl": "https://github.com/YoubetDao/youbet-task/issues/133",
+          "labels": [],
+          "project": "66b1e94756f79b17455f9d66",
+          "rewardGranted": false,
+          "state": "open",
+          "title": "Internal JSON-RPC Error: Execution Reverted due to RedPacket Already Existing",
+          "updatedAt": "2025-03-18T03:29:21.000Z",
+          "user": {
+            "login": "hunknownz",
+            "htmlUrl": "https://github.com/hunknownz",
+            "avatarUrl": "https://avatars.githubusercontent.com/u/5717967?v=4"
+          }
+        }
+      ];
+      const formattedIssues = actualIssues.map((issue) => {
+        return {
+          title: issue.title,
+          status: issue.state
+        };
+      });
+      console.log("get issues: ", formattedIssues);
+      await callback?.({
+        text: `You are given a plain text list of GitHub issues. Please convert it into a clean, well-formatted Markdown list, where each issue is presented as a bullet point with the following details:
+	\u2022	The issue title in bold
+	\u2022	Status (open or closed)
+	\u2022	Assignee (use unassigned if none)
+	\u2022	Creation date (YYYY-MM-DD format)
+	\u2022	A clickable link to the issue
+    Here is the data: ${JSON.stringify({
+          issues: formattedIssues
+        })}
+    Format each issue as a bullet point like this:
+	\u2022	Issue Title \u2014 open, assigned to username, created on YYYY-MM-DD. View issue
+`
+      }, []);
+    } catch (error) {
+      console.log(error);
+      elizaLogger5.error("Error fetching issues:", error);
+      await callback?.({
+        text: "An error occurred while fetching issues."
+      }, []);
+    }
+  }
+};
+GetProjectIssuesAction = _ts_decorate5([
+  injectable5(),
+  _ts_metadata5("design:type", Function),
+  _ts_metadata5("design:paramtypes", [])
+], GetProjectIssuesAction);
+globalContainer5.bind(GetProjectIssuesAction).toSelf().inRequestScope();
+
 // src/samplePlugin.ts
 var samplePlugin = {
   name: "sample",
   description: "Enables creation and management of generic resources",
   actions: [
-    CreateResourceAction
+    CreateResourceAction,
+    GetProjectIssuesAction
   ],
   providers: [
     SampleProvider

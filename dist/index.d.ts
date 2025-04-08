@@ -52,7 +52,7 @@ declare class CreateResourceAction extends BaseInjectableAction<CreateResourceCo
     private readonly sampleService;
     constructor(sampleProvider: SampleProvider, sampleService: SampleService);
     validate(runtime: IAgentRuntime, _message: Memory, _state?: State): Promise<boolean>;
-    execute(content: CreateResourceContent | null, runtime: IAgentRuntime, message: Memory, state: State, callback?: HandlerCallback): Promise<void>;
+    execute(content: null, runtime: IAgentRuntime, _message: Memory, _state: State, callback?: HandlerCallback): Promise<void>;
 }
 
 /**

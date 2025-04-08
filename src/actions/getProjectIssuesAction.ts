@@ -13,60 +13,50 @@ import {
     BaseInjectableAction,
     type ActionOptions
 } from "@elizaos-plugins/plugin-di";
-
-import { SampleService } from "../services/sampleService";
-import { SampleProvider } from "../providers/sampleProvider";
+import { Octokit } from "@octokit/rest";
 
 /**
  * The content class for the action
  */
-export class CreateResourceContent {
-    @property({
-        description: "Name of the resource",
-        schema: z.string(),
-    })
-    name: string;
+export class GetProjectIssuesContent {
+    // @property({
+    //     description: "Owner of the repository",
+    //     schema: z.string(),
+    // })
+    // owner: string;
 
-    @property({
-        description: "Type of resource (document, image, video)",
-        schema: z.string(),
-    })
-    type: string;
+    // @property({
+    //     description: "Name of the repository",
+    //     schema: z.string(),
+    // })
+    // repo: string;
 
-    @property({
-        description: "Description of the resource",
-        schema: z.string(),
-    })
-    description: string;
-
-    @property({
-        description: "Array of tags to categorize the resource",
-        schema: z.array(z.string()),
-    })
-    tags: string[];
+    // @property({
+    //     description: "State of issues to fetch (open, closed, or all)",
+    //     schema: z.string().default("open"),
+    // })
+    // state: string;
 }
 
 /**
- * Options for the CreateResource action
+ * Options for the GetProjectIssues action
  */
-const options: ActionOptions<CreateResourceContent> = {
-    name: "CREATE_RESOURCE",
-    similes: ["CREATE_RESOURCE"],
-    description: "Create a new resource with the specified details",
+const options: ActionOptions<GetProjectIssuesContent> = {
+    name: "GET_PROJECT_ISSUES",
+    similes: ["GET_PROJECT_ISSUES", "LIST_ISSUES", "SHOW_TASKS", "GET_ISSUES", "LIST_TASKS"],
+    description: "Get a list of issues/tasks from a GitHub repository",
     examples: [
         [
             {
                 user: "{{user1}}",
                 content: {
-                    text: "Create a new resource with the name 'Resource1' and type 'TypeA'",
+                    text: "Get all issues from the repository",
                 },
             },
             {
                 user: "{{agentName}}",
                 content: {
-                    text: `Resource created successfully:
-- Name: Resource1
-- Type: TypeA`,
+                    text: "Here are the issues in the repository:",
                 },
             },
         ],
@@ -74,33 +64,26 @@ const options: ActionOptions<CreateResourceContent> = {
             {
                 user: "{{user1}}",
                 content: {
-                    text: "Create a new resource with the name 'Resource2' and type 'TypeB'",
+                    text: "list tasks from the repository",
                 },
             },
             {
                 user: "{{agentName}}",
                 content: {
-                    text: `Resource created successfully:
-- Name: Resource2
-- Type: TypeB`,
-                },
+                        text: "Here are the tasks in the repository:",
+                    },
             },
         ],
     ],
-    contentClass: CreateResourceContent,
+    contentClass: GetProjectIssuesContent,
 };
 
 /**
- * CreateResourceAction
+ * GetProjectIssuesAction
  */
 @injectable()
-export class CreateResourceAction extends BaseInjectableAction<CreateResourceContent> {
-    constructor(
-        @inject(SampleProvider)
-        private readonly sampleProvider: SampleProvider,
-        @inject(SampleService)
-        private readonly sampleService: SampleService
-    ) {
+export class GetProjectIssuesAction extends BaseInjectableAction<GetProjectIssuesContent> {
+    constructor() {
         super(options);
     }
 
@@ -109,81 +92,23 @@ export class CreateResourceAction extends BaseInjectableAction<CreateResourceCon
         _message: Memory,
         _state?: State
     ): Promise<boolean> {
-        return runtime.getSetting("API_KEY") !== undefined;
+        return runtime.getSetting("GITHUB_TOKEN") !== undefined;
     }
 
-//     async execute(
-//         content: CreateResourceContent | null,
-//         runtime: IAgentRuntime,
-//         message: Memory,
-//         state: State,
-//         callback?: HandlerCallback
-//     ) {
-//         console.log("--------------------------------");
-//         console.log("content", content);
-//         console.log("--------------------------------");
-//         if (!content) {
-//             const error = "No content provided for the action.";
-//             elizaLogger.warn(error);
-//             await callback?.({ text: error }, []);
-//             return;
-//         }
-
-//         // Call injected provider to do some work
-//         try {
-//             // Call Service
-//             const taskCount = this.sampleService.getGlobalActiveTaskCount();
-//             elizaLogger.info("Active task count:", taskCount);
-
-//             // Call Provider
-//             const result = await this.sampleProvider.get(runtime, message, state);
-//             if (!result) {
-//                 elizaLogger.warn("Provider did not return a result.");
-//             } else {
-//                 elizaLogger.info("Privder result:", result);
-//             }
-//             // Use result in callback
-//         } catch (error) {
-//             elizaLogger.error("Provider error:", error);
-//         }
-
-//         // persist relevant data if needed to memory/knowledge
-//         // const memory = {
-//         //     type: "resource",
-//         //     content: resourceDetails.object,
-//         //     timestamp: new Date().toISOString()
-//         // };
-
-//         // await runtime.storeMemory(memory);
-
-//         callback?.(
-//             {
-//                 text: `Resource created successfully:
-// - Name: ${content.name}
-// - Type: ${content.type}
-// - Description: ${content.description}
-// - Tags: ${content.tags.join(", ")}
-
-// Resource has been stored in memory.`,
-//             },
-//             []
-//         );
-//     }
-
-async execute(
-        content: null,
+    async execute(
+        content: GetProjectIssuesContent | null,
         runtime: IAgentRuntime,
         _message: Memory,
         _state: State,
         callback?: HandlerCallback
     ) {
         console.log("--------------------------------");
-        // if (!content) {
-        //     const error = "No content provided for the action.";
-        //     elizaLogger.warn(error);
-        //     await callback?.({ text: error }, []);
-        //     return;
-        // }
+        if (!content) {
+            const error = "No content provided for the action.";
+            elizaLogger.warn(error);
+            await callback?.({ text: error }, []);
+            return;
+        }
 
         try {
             // const github = new Octokit({
@@ -345,4 +270,4 @@ async execute(
 }
 
 // Register the action with the global container
-globalContainer.bind(CreateResourceAction).toSelf().inRequestScope();
+globalContainer.bind(GetProjectIssuesAction).toSelf().inRequestScope();
