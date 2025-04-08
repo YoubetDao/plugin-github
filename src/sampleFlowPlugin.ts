@@ -5,11 +5,12 @@ import { CreateResourceAction } from "./actions/sampleAction";
 import { SampleFlowAction } from './actions/sampleFlowAction';
 import { SampleProvider } from "./providers/sampleProvider";
 import { SampleService } from './services/sampleService';
-
+import { JudgeProjectAction } from './actions/judgeProjectAction';
+import { DistributeRewardsAction } from './actions/distributeRewardsAction';
 export const sampleFlowPlugin: PluginOptions = {
     name: "sample",
     description: "Enables creation and management of generic resources",
-    actions: [CreateResourceAction, SampleFlowAction],
+    actions: [CreateResourceAction, JudgeProjectAction, SampleFlowAction, DistributeRewardsAction],
     providers: [SampleProvider],
     services: [SampleService, FlowWalletService],
     evaluators: [],
