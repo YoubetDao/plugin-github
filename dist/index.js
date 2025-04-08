@@ -801,17 +801,11 @@ https://github.com/user-attachments/assets/541516f7-0753-44ea-81f7-538977435d3f`
       });
       console.log("get issues: ", formattedIssues);
       await callback?.({
-        text: `You are given a plain text list of GitHub issues. Please convert it into a clean, well-formatted Markdown list, where each issue is presented as a bullet point with the following details:
-	\u2022	The issue title in bold
-	\u2022	Status (open or closed)
-	\u2022	Assignee (use unassigned if none)
-	\u2022	Creation date (YYYY-MM-DD format)
-	\u2022	A clickable link to the issue
-    Here is the data: ${JSON.stringify({
+        text: ` Here are the issues:
+                    ${JSON.stringify({
           issues: formattedIssues
         })}
-    Format each issue as a bullet point like this:
-	\u2022	Issue Title \u2014 open, assigned to username, created on YYYY-MM-DD. View issue
+                    (Format each issue as a bullet point like this:  \u2022	Issue Title \u2014 open, assigned to username, created on YYYY-MM-DD. View issue)
 `
       }, []);
     } catch (error) {
