@@ -29,7 +29,8 @@
         "format:fix": "biome format --write ."
     },
     "dependencies": {
-        "@octokit/rest": "^20.1.1"
+        "@octokit/rest": "^20.1.1",
+        "openai": "^4.92.1"
     },
     "devDependencies": {
         "@biomejs/biome": "1.9.4",
