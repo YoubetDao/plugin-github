@@ -3,10 +3,12 @@ import { SampleProvider } from "./providers/sampleProvider";
 import { SampleService } from './services/sampleService';
 import { GetProjectIssuesAction } from "./actions/getProjectIssuesAction";
 import { CreateResourceAction } from './actions/sampleAction';
+import { JudgeProjectAction } from './actions/judgeProjectAction';
+import { DistributeRewardsAction } from './actions/distributeRewardsAction';
 export const samplePlugin: PluginOptions = {
-    name: "sample",
-    description: "Enables creation and management of generic resources",
-    actions: [CreateResourceAction, GetProjectIssuesAction],
+    name: "github",
+    description: "Enables get and manage GitHub resources",
+    actions: [CreateResourceAction, DistributeRewardsAction, JudgeProjectAction, GetProjectIssuesAction],
     providers: [SampleProvider],
     services: [SampleService],
     evaluators: [],
