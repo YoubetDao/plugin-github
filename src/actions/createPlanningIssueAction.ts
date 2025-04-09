@@ -16,6 +16,9 @@ import {
 import { Octokit } from "@octokit/rest";
 import OpenAI from "openai";
 
+const geminiBaseUrl = "https://generativelanguage.googleapis.com/v1beta/openai/";
+
+
 /**
  * The content class for the action
  */
@@ -96,6 +99,9 @@ export class CreatePlanningIssueAction extends BaseInjectableAction<CreatePlanni
 
     try {
       const prompt = `
+      Return JSON only, without any additional explanation. No \`\`\`json\`\`\` Otherwise, it will break the JSON format.
+      SyntaxError: Unexpected token \` json
+
       You are a professional project management expert, responsible for breaking down project requirements into clear GitHub issues.
       Based on the project description below, create ONE detailed task. It's just a demo.
 
@@ -118,14 +124,13 @@ export class CreatePlanningIssueAction extends BaseInjectableAction<CreatePlanni
         "estimatedEffort": 3
       }
 
-      Return JSON only, without any additional explanation. No \`\`\`json\`\`\`
+      Return JSON only, without any additional explanation. No \`\`\`json\`\`\` Otherwise, it will break the JSON format.
+      SyntaxError: Unexpected token \` json
       `;
 
       const openai = new OpenAI({
-        apiKey: runtime.getSetting("DEEPSEEK_API_KEY"),
-        baseURL:
-          runtime.getSetting("DEEPSEEK_API_URL") ||
-          "https://api.deepseek.com/v1",
+        apiKey: runtime.getSetting("GOOGLE_GENERATIVE_AI_API_KEY"),
+        baseURL: geminiBaseUrl,
       });
 
       const github = new Octokit({
@@ -134,9 +139,8 @@ export class CreatePlanningIssueAction extends BaseInjectableAction<CreatePlanni
 
       const completion = await openai.chat.completions.create({
         messages: [{ role: "user", content: prompt }],
-        model: runtime.getSetting("SMALL_DEEPSEEK_MODEL") || "gpt-3.5-turbo",
+        model: runtime.getSetting("SMALL_GOOGLE_MODEL") || "gemini-2.0-flash",
         temperature: 0.7,
-        max_tokens: 500,
       });
 
       const content_text = completion.choices[0].message.content;
@@ -144,7 +148,8 @@ export class CreatePlanningIssueAction extends BaseInjectableAction<CreatePlanni
         throw new Error("No content generated from OpenAI");
       }
 
-      const task = JSON.parse(content_text);
+      const clean_content_text = content_text.replace("```json", "").replace("```", "");
+      const task = JSON.parse(clean_content_text);
 
       const issue = await github.rest.issues.create({
         owner: runtime.getSetting("GITHUB_REPO_OWNER"),
@@ -179,7 +184,6 @@ Estimated Effort: ${task.estimatedEffort}/10`;
         []
       );
     } catch (error) {
-      console.error(error);
       elizaLogger.error("Error creating planning issue:", error);
       await callback?.(
         { text: "An error occurred while creating the planning issue." },

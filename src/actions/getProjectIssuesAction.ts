@@ -107,7 +107,6 @@ export class GetProjectIssuesAction extends BaseInjectableAction<GetProjectIssue
     _state: State,
     callback?: HandlerCallback
   ) {
-    console.log("--------------------------------");
     if (!content) {
       const error = "No content provided for the action.";
       elizaLogger.warn(error);
@@ -148,7 +147,7 @@ export class GetProjectIssuesAction extends BaseInjectableAction<GetProjectIssue
 
       await callback?.(
         {
-          text: `Here are the tasks in the repository: ${formattedTasksMarkdown.join(
+          text: `Here are the tasks in the repository: \n ${formattedTasksMarkdown.join(
             "\n"
           )}`,
           action: "GetProjectIssues",
@@ -156,7 +155,6 @@ export class GetProjectIssuesAction extends BaseInjectableAction<GetProjectIssue
         []
       );
     } catch (error) {
-      console.log(error);
       elizaLogger.error("Error fetching issues:", error);
       await callback?.(
         { text: "An error occurred while fetching issues." },
